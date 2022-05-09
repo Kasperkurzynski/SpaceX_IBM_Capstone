@@ -1,0 +1,64 @@
+TASK 1
+
+SELECT DISTINCT Launch_site
+FROM `new-projects-347810.spacex.SpaceXData`
+
+TASK 2
+
+SELECT *
+FROM `new-projects-347810.spacex.SpaceXData`
+WHERE Launch_Site LIKE 'CCA%'
+LIMIT 5
+
+TASK 3
+
+SELECT sum(PAYLOAD_MASS__KG_) as Total_Payload_Laucned_by_NASA_CRS
+FROM `new-projects-347810.spacex.SpaceXData`
+WHERE Customer = "NASA (CRS)"
+
+TASK 4
+
+SELECT avg(PAYLOAD_MASS__KG_) as Average_Payload_Mass_Version_F9V1_1
+FROM `new-projects-347810.spacex.SpaceXData`
+WHERE Booster_Version = "F9 v1.1"
+
+TASK 5
+
+SELECT min(Date) as First_Successful_Landing_Outcome_Ground_Pad
+FROM `new-projects-347810.spacex.SpaceXData`
+WHERE Landing__Outcome = "Success (ground pad)"
+
+TASK 6
+
+SELECT Booster_Version, Landing__Outcome, PAYLOAD_MASS__KG_
+FROM `new-projects-347810.spacex.SpaceXData`
+WHERE PAYLOAD_MASS__KG_ BETWEEN 4000 AND 6000
+AND Landing__Outcome = 'Success (drone ship)'
+
+TASK 7
+
+SELECT Mission_Outcome, COUNT(*) as Mission_Outcomes_Counts
+FROM `new-projects-347810.spacex.SpaceXData`
+GROUP BY Mission_Outcome
+
+TASK 8
+
+Select Booster_Version, PAYLOAD_MASS__KG_ from `new-projects-347810.spacex.SpaceXData` 
+WHERE PAYLOAD_MASS__KG_ IN
+(SELECT max(PAYLOAD_MASS__KG_) from `new-projects-347810.spacex.SpaceXData`); 
+
+TASK 9
+
+Select  Landing__Outcome, Booster_Version, Launch_Site, EXTRACT(YEAR FROM Date) as Year
+FROM `new-projects-347810.spacex.SpaceXData` 
+WHERE Landing__Outcome = 'Failure (drone ship)' 
+AND EXTRACT(YEAR FROM Date) = 2015
+
+TASK 10
+
+Select  Landing__Outcome, COUNT(*) as Count
+FROM `new-projects-347810.spacex.SpaceXData` 
+WHERE Landing__Outcome = 'Failure (drone ship)' OR Landing__Outcome = 'Success (ground pad)'
+AND Date BETWEEN '2010-06-04' and '2017-03-20'
+GROUP BY Landing__Outcome
+ORDER BY Count desc
